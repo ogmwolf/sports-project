@@ -1,26 +1,267 @@
 @import "tailwindcss";
 
+/* ── Design tokens ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --green: #1A6B3C;
+  --green-light: #E8F5EE;
+  --green-text: #0F4A28;
+  --green-mid: #2D9A5A;
+  --bg: #F3F2EE;
+  --card-bg: #ffffff;
+  --border: #e8e8e8;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-muted: #999999;
+  --nav-h: 56px;
+  --nav-gap: 16px;
+  --sticky-top: 72px; /* nav-h + nav-gap */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.55;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Cards ── */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+.card-flush { padding: 0; overflow: hidden; }
+
+/* ── Buttons ── */
+.btn-primary {
+  background: var(--green); color: white; border: none;
+  border-radius: 20px; padding: 8px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover { background: #155a32; }
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.btn-ghost {
+  background: transparent; color: var(--text-primary);
+  border: 1px solid #ccc; border-radius: 20px;
+  padding: 7px 18px; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.btn-ghost:hover { border-color: #999; }
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex; align-items: center;
+  border-radius: 20px; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; letter-spacing: 0.04em; white-space: nowrap;
+}
+.badge-green  { background: var(--green-light); color: var(--green-text); }
+.badge-purple { background: #EDE9FE; color: #5B21B6; }
+.badge-amber  { background: #FEF3C7; color: #92400E; }
+.badge-blue   { background: #DBEAFE; color: #1E40AF; }
+.badge-red    { background: #FEE2E2; color: #991B1B; }
+.badge-gray   { background: #F3F4F6; color: #374151; }
+
+.tag-Live       { background: #FFE4E1; color: #C0392B; }
+.tag-NCAA       { background: #DBEAFE; color: #1E40AF; }
+.tag-Recruiting { background: #D1FAE5; color: #065F46; }
+.tag-Rankings   { background: #FEF3C7; color: #92400E; }
+.tag-Tournament { background: #EDE9FE; color: #5B21B6; }
+.tag-Nationals  { background: #CCFBF1; color: #0F766E; }
+
+/* ── Pipeline ── */
+.pipeline-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid #ccc; background: white;
+  flex-shrink: 0; position: relative; z-index: 1;
+}
+.pipeline-dot.done    { background: var(--green); border-color: var(--green); }
+.pipeline-dot.current { background: white; border-color: var(--green); box-shadow: 0 0 0 3px rgba(26,107,60,0.2); }
+.pipeline-line        { flex: 1; height: 2px; background: #e0e0e0; }
+.pipeline-line.done   { background: var(--green); }
+
+/* ── Misc ── */
+.dashed-btn {
+  width: 100%; border: 1.5px dashed #ccc; border-radius: 8px;
+  padding: 10px; text-align: center; color: var(--text-muted);
+  font-size: 13px; cursor: pointer; background: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+.dashed-btn:hover { border-color: var(--green); color: var(--green); }
+textarea:focus, input:focus { outline: none; }
+
+/* ── Skeleton ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 4px;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── Toast ── */
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+.toast {
+  position: fixed; bottom: 72px; left: 50%; transform: translateX(-50%);
+  background: #111; color: white; padding: 10px 18px;
+  border-radius: 22px; font-size: 13px; font-weight: 500;
+  white-space: nowrap; animation: toast-in 0.2s ease-out; z-index: 999;
+}
+
+/* ─────────────────────────────────────── */
+/* TOP NAV                                 */
+/* ─────────────────────────────────────── */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: white; border-bottom: 1px solid var(--border);
+  height: var(--nav-h);
+  display: flex; align-items: center;
+}
+.top-nav-inner {
+  max-width: 1128px; margin: 0 auto;
+  width: 100%; padding: 0 16px;
+  display: flex; align-items: center; gap: 0;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none; flex-shrink: 0; margin-right: 8px;
+}
+.nav-search {
+  position: relative; flex-shrink: 0;
+}
+.nav-search input {
+  width: 280px; padding: 8px 14px 8px 36px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 20px; font-size: 13px; color: #111;
+}
+.nav-search-icon {
+  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+  color: #999; pointer-events: none;
+}
+.nav-items {
+  display: flex; align-items: stretch; margin-left: auto;
+  height: var(--nav-h);
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; width: 80px; height: 100%;
+  cursor: pointer; position: relative; border: none; background: none;
+  text-decoration: none; border-bottom: 2px solid transparent;
+  gap: 2px; transition: background 0.1s;
+  color: #666; padding: 0;
+}
+.nav-item:hover { background: #f5f5f3; }
+.nav-item.active { color: #111; border-bottom-color: #111; }
+.nav-item-icon { display: flex; align-items: center; justify-content: center; }
+.nav-item-label { font-size: 11px; font-weight: 500; line-height: 1; }
+.nav-item.active .nav-item-label { font-weight: 700; }
+
+/* dropdown */
+.nav-dropdown-wrap { position: relative; }
+.nav-dropdown {
+  position: absolute; top: calc(100% + 4px); right: 0;
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12); min-width: 180px;
+  padding: 6px 0; z-index: 200;
+}
+.nav-dropdown a, .nav-dropdown button {
+  display: block; width: 100%; text-align: left;
+  padding: 10px 16px; font-size: 13px; color: #333;
+  background: none; border: none; cursor: pointer; text-decoration: none;
+}
+.nav-dropdown a:hover, .nav-dropdown button:hover { background: #f5f5f3; }
+.nav-dropdown hr { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+
+/* ─────────────────────────────────────── */
+/* THREE-COLUMN LAYOUT                    */
+/* ─────────────────────────────────────── */
+.page-body {
+  padding-top: var(--nav-gap);
+  padding-bottom: 80px;
+  min-height: calc(100vh - var(--nav-h));
+  background: var(--bg);
+}
+.page-columns {
+  max-width: 1128px; margin: 0 auto;
+  padding: 0 16px;
+  display: flex; gap: 24px;
+  align-items: flex-start;
+}
+.col-left {
+  width: 220px; flex-shrink: 0;
+  position: sticky; top: var(--sticky-top);
+  max-height: calc(100vh - var(--sticky-top));
+  overflow-y: auto;
+}
+.col-main {
+  flex: 1; min-width: 0; max-width: 550px;
+}
+.col-right {
+  width: 300px; flex-shrink: 0;
+  position: sticky; top: var(--sticky-top);
+  max-height: calc(100vh - var(--sticky-top));
+  overflow-y: auto;
+}
+
+/* ─────────────────────────────────────── */
+/* MOBILE BOTTOM NAV                      */
+/* ─────────────────────────────────────── */
+.bottom-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 56px; background: white;
+  border-top: 1px solid var(--border); z-index: 100;
+}
+.bottom-nav-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px; background: none; border: none;
+  cursor: pointer; color: #888; font-size: 11px; font-weight: 500;
+  padding-bottom: 4px;
+}
+.bottom-nav-item.active { color: var(--green); font-weight: 700; }
+
+/* ─────────────────────────────────────── */
+/* RESPONSIVE                             */
+/* ─────────────────────────────────────── */
+
+/* Tablet 768–1024 */
+@media (max-width: 1024px) {
+  .col-left  { width: 60px; }
+  .col-right { display: none; }
+  .col-main  { max-width: none; }
+  .nav-item-label { display: none; }
+  .left-athlete-stats { display: none; }
+  .left-nav-links     { display: none; }
+  .left-tools         { display: none; }
+  /* news inline between posts */
+  .news-inline { display: block; }
+}
+@media (min-width: 1025px) {
+  .news-inline { display: none; }
+}
+
+/* Mobile <768 */
+@media (max-width: 767px) {
+  .col-left        { display: none; }
+  .col-right       { display: none; }
+  .col-main        { max-width: none; }
+  .page-columns    { padding: 0; gap: 0; }
+  .bottom-nav      { display: flex; }
+  .nav-search      { display: none; }
+  .nav-search-mobile { display: flex !important; }
+  .toast           { bottom: 68px; }
 }

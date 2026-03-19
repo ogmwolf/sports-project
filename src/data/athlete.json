@@ -1,0 +1,50 @@
+{
+  "id": "sofia-reyes",
+  "name": "Sofia Reyes",
+  "initials": "SR",
+  "position": "OH",
+  "sports": ["Volleyball"],
+  "gender": "female",
+  "sport": "Volleyball",
+  "number": 3,
+  "classYear": 2029,
+  "club": "SC Rockstar 16U",
+  "school": "Mira Costa HS",
+  "height": "5'10\"",
+  "weight": "135 lbs",
+  "handedness": "Right",
+  "location": "Los Angeles, CA",
+  "gpa": 3.9,
+  "stats": {
+    "killPct": 42,
+    "killsPerSet": 3.8,
+    "attacksPerSet": 8.2,
+    "hitPct": 0.312,
+    "nationalRank": 89,
+    "stateRank": 11,
+    "state": "CA"
+  },
+  "highlights": [
+    { "id": "h1", "title": "2024 Junior Nationals Highlights", "views": "12.4K", "duration": "3:42" },
+    { "id": "h2", "title": "Top Kills – Spring Season 2025", "views": "8.1K", "duration": "2:18" },
+    { "id": "h3", "title": "SC Rockstar 16U Championship", "views": "5.3K", "duration": "4:05" }
+  ],
+  "endorsements": [
+    {
+      "id": "e1",
+      "coach": "Kim Collins",
+      "title": "Head Coach, SC Rockstar 16U",
+      "initials": "KC",
+      "verified": true,
+      "text": "Sofia is one of the most complete outside hitters I've coached in 15 years. Her court vision, arm swing, and ability to read blocks are exceptional. She leads by example every single practice and pushes the whole team to compete at a higher level."
+    },
+    {
+      "id": "e2",
+      "coach": "Derek Kim",
+      "title": "Director, SoCal Select",
+      "initials": "DK",
+      "verified": true,
+      "text": "Exceptional court vision and leadership under pressure. Sofia's kill efficiency is among the best I've seen at the 16U level nationally. Division I programs should be paying close attention."
+    }
+  ]
+}

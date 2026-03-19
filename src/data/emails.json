@@ -1,0 +1,61 @@
+{
+  "styles": ["short", "film", "fit"],
+  "templates": {
+    "ucla": {
+      "short": {
+        "subject": "Prospective 2029 OH — Sofia Reyes",
+        "body": "Coach Speraw,\n\nMy name is Sofia Reyes — outside hitter, Class of 2029, SC Rockstar 16U out of Los Angeles.\n\nQuick stats: 94% dig pct, 98% pass pct, 4.2 digs/set. National rank #89. GPA 3.9.\n\nI'd love to learn more about UCLA's program and any fit for the 2029 class.\n\nThank you,\nSofia Reyes | SC Rockstar 16U | #3 | Class of 2029"
+      },
+      "film": {
+        "subject": "Film — Sofia Reyes, OH #89 National, Class of 2029",
+        "body": "Coach Speraw,\n\nSofia Reyes — OH — Class of 2029 — SC Rockstar 16U\n\n► Highlight Reel: [scoutly.app/sofia-reyes/highlights]\n► 2024 Junior Nationals: [scoutly.app/sofia-reyes/nationals]\n\nSTATS: 94% DIG PCT | 98% PASS PCT | 4.2 DIG/SET\nRANK: Natl #89 | CA #11 | Height: 5'10\" | GPA: 3.9\n\nI've followed UCLA volleyball closely and would love to connect about any 2029 opportunities.\n\n— Sofia Reyes | SC Rockstar 16U | Los Angeles, CA"
+      },
+      "fit": {
+        "subject": "Sofia Reyes — OH 2029 — UCLA Interest",
+        "body": "Coach Speraw,\n\nI'm Sofia Reyes, a Class of 2029 outside hitter with SC Rockstar 16U in Los Angeles. UCLA has been my top school for years — I've attended two home matches at Pauley Pavilion and love what your staff has built.\n\nI'm 5'10\", right-handed, 94% dig percentage, 98% pass accuracy. National rank #89. GPA 3.9. I'm committed to both the academic rigor and the competitive standard UCLA demands.\n\nI'd be grateful for a chance to connect.\n\nSofia Reyes | Class of 2029 | SC Rockstar 16U"
+      }
+    },
+    "lbsu": {
+      "short": {
+        "subject": "Prospective 2029 OH — Sofia Reyes",
+        "body": "Long Beach State Coaching Staff,\n\nMy name is Sofia Reyes — outside hitter, Class of 2029, SC Rockstar 16U, Los Angeles.\n\nStats: 94% dig pct, 98% pass pct, 4.2 digs/set. National rank #89. GPA 3.9.\n\nLong Beach State is one of my top targets. Would love to learn more about the program.\n\nThank you,\nSofia Reyes | SC Rockstar 16U | #3 | Class of 2029"
+      },
+      "film": {
+        "subject": "Film — Sofia Reyes, OH #89 National, Class of 2029",
+        "body": "Long Beach State Coaching Staff,\n\nSofia Reyes — OH — Class of 2029 — SC Rockstar 16U\n\n► Highlight Reel: [scoutly.app/sofia-reyes/highlights]\n► 2024 Junior Nationals: [scoutly.app/sofia-reyes/nationals]\n\nSTATS: 94% DIG PCT | 98% PASS PCT | 4.2 DIG/SET\nRANK: Natl #89 | CA #11 | Height: 5'10\" | GPA: 3.9\n\nI've followed the LBSU program closely. Would love to connect about 2029 opportunities.\n\n— Sofia Reyes | SC Rockstar 16U | Los Angeles, CA"
+      },
+      "fit": {
+        "subject": "Sofia Reyes — OH 2029 — Long Beach State Interest",
+        "body": "Long Beach State Coaching Staff,\n\nI'm Sofia Reyes, a Class of 2029 outside hitter with SC Rockstar 16U in Los Angeles. Long Beach State has been on my list since I started playing club — the Big West is exactly the competitive environment I'm looking for.\n\nI'm 5'10\", right-handed, 94% dig percentage, 98% pass accuracy, national rank #89, GPA 3.9. I'm a student-athlete in the true sense and would fit Long Beach's academic culture well.\n\nHope to connect soon.\n\nSofia Reyes | Class of 2029 | SC Rockstar 16U"
+      }
+    },
+    "pepperdine": {
+      "short": {
+        "subject": "Thank You — Sofia Reyes, OH 2029",
+        "body": "Pepperdine Coaching Staff,\n\nThank you for the offer — I'm extremely excited about the opportunity to join the Waves. Pepperdine has been a dream school.\n\nI look forward to our next conversation and visiting campus to get a better feel for the program.\n\nSofia Reyes | OH | Class of 2029 | SC Rockstar 16U | Natl #89 | GPA 3.9"
+      },
+      "film": {
+        "subject": "Updated Film — Sofia Reyes, OH 2029",
+        "body": "Pepperdine Coaching Staff,\n\nThank you again for the offer. I wanted to share my most recent film from the LA Open:\n\n► LA Open Highlights (March 2026): [scoutly.app/sofia-reyes/la-open]\n► Full 2024 Nationals: [scoutly.app/sofia-reyes/nationals]\n\nSTATS (updated): 94% DIG PCT | 98% PASS PCT | 4.2 DIG/SET\nNatl #89 | CA #11 | 5'10\" | GPA 3.9\n\nLooking forward to our next call.\n\n— Sofia Reyes"
+      },
+      "fit": {
+        "subject": "Sofia Reyes — Pepperdine Visit Follow-Up",
+        "body": "Pepperdine Coaching Staff,\n\nThank you so much for the offer and for the time you've invested in recruiting me. Pepperdine checks every box — the academic reputation, Malibu, the WCC competition level, and most importantly, the culture your staff has built.\n\nI'd love to schedule a campus visit as soon as possible to take the next step.\n\nSofia Reyes | OH | Class of 2029 | SC Rockstar 16U | Natl #89 | GPA 3.9"
+      }
+    },
+    "ucsd": {
+      "short": {
+        "subject": "Follow-Up — Sofia Reyes, OH 2029",
+        "body": "UC San Diego Coaching Staff,\n\nThank you for having me on campus last month — the visit was excellent. I wanted to follow up and reiterate my strong interest in the UCSD program.\n\nStats: 94% dig pct, 98% pass pct, 4.2 digs/set. National rank #89. GPA 3.9.\n\nLooking forward to hearing from you.\n\nSofia Reyes | OH | Class of 2029 | SC Rockstar 16U"
+      },
+      "film": {
+        "subject": "Updated Film — Sofia Reyes, OH 2029 — Post-Visit Follow-Up",
+        "body": "UC San Diego Coaching Staff,\n\nFollowing up after my February campus visit with updated film:\n\n► LA Open Highlights (March 2026): [scoutly.app/sofia-reyes/la-open]\n► Full 2024 Nationals: [scoutly.app/sofia-reyes/nationals]\n\nSTATS: 94% DIG PCT | 98% PASS PCT | 4.2 DIG/SET\nNatl #89 | CA #11 | 5'10\" | GPA 3.9\n\nStill very interested in what UCSD has to offer.\n\n— Sofia Reyes"
+      },
+      "fit": {
+        "subject": "Sofia Reyes — UCSD Visit Follow-Up",
+        "body": "UC San Diego Coaching Staff,\n\nI wanted to follow up after my visit in February. Meeting your staff and seeing the facilities reinforced how strong a fit UCSD would be. The academics are outstanding, and your competitive trajectory in the Big West is exciting.\n\nAs a outside hitter focused on precision and court IQ — 94% dig pct, 98% pass pct, national rank #89 — I believe I'd contribute immediately at the D1 level.\n\nI'd love to continue the conversation.\n\nSofia Reyes | OH | Class of 2029 | SC Rockstar 16U | GPA 3.9"
+      }
+    }
+  }
+}

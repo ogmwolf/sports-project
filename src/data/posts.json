@@ -1,0 +1,276 @@
+[
+  {
+    "id": "post1",
+    "author": "Camila Linares",
+    "initials": "CL",
+    "position": "Libero",
+    "club": "SC Rockstar 16U",
+    "classYear": 2028,
+    "timestamp": "2h ago",
+    "body": "Committed! So grateful for everyone who supported me on this journey. This has been a dream since I was 10 years old and I can't believe it's real. See you in Malibu 🌊",
+    "milestone": {
+      "type": "committed",
+      "text": "Committed to Pepperdine University",
+      "detail": "Div I · WCC · Class of 2028"
+    },
+    "platforms": [
+      "instagram",
+      "x",
+      "tiktok"
+    ],
+    "reactions": 24,
+    "comments": [
+      {
+        "id": "c1",
+        "author": "Kim Collins",
+        "initials": "KC",
+        "text": "So proud of you! Well deserved. Pepperdine is getting a gem.",
+        "timestamp": "1h ago"
+      }
+    ]
+  },
+  {
+    "id": "post-ml-1",
+    "author": "Megan Lee",
+    "initials": "ML",
+    "position": "MB",
+    "club": "Mizuno Long Beach",
+    "classYear": 2028,
+    "timestamp": "6 hours ago",
+    "body": "That feeling when you get your first college email 💌🎓 Staying focused, staying humble. Just going to keep working. #Blessed #ClassOf2028 #Volleyball",
+    "photo": {
+      "url": "https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=600&h=400&fit=crop&q=80"
+    },
+    "platforms": [
+      "x",
+      "instagram",
+      "tiktok",
+      "snapchat"
+    ],
+    "reactions": 389,
+    "comments": []
+  },
+  {
+    "id": "post-bot-1",
+    "author": "Team Bot",
+    "initials": "TB",
+    "position": null,
+    "club": "SC Rockstar 16U · AI Assistant",
+    "classYear": null,
+    "timestamp": "Today at 9:14 AM",
+    "isBot": true,
+    "body": "👋 Good morning SC Rockstar 16U families!\n\n🥪 LUNCH ORDER REMINDER\nTournament days are long — let's make sure everyone is fueled up!\n\nPlease submit your lunch orders for Red Rock Rave #2 (April 4–6) by Wednesday March 25 at 11:59 PM.\n\nOrder here → [lunch order link]\n\n📦 What's available:\n- Sandwich + chips + drink — $14\n- Burrito bowl + drink — $13\n- Snack pack (fruit, granola, nuts, bar) — $8\n\n🚗 CARPOOL COORDINATION\n3 families still need rides to Las Vegas. 2 families have offered seats. Reply below or use the carpool board to coordinate.\n\n💊 MEDICAL FORMS\n4 athletes have not submitted updated medical release forms for the season. Forms must be on file before tournament day. Submit here → [link]\n\nQuestions? I'm here 24/7. Just reply to this post or DM the team channel.\n\n— Team Bot 🤖\nPowered by Scoutly for SC Rockstar 16U",
+    "platforms": [],
+    "reactions": 34,
+    "reactLabel": "acknowledged",
+    "comments": [
+      {
+        "id": "c-bot-1",
+        "author": "Jennifer L.",
+        "initials": "JL",
+        "badge": "Parent",
+        "avatarBg": "#FAEEDA",
+        "text": "Submitted! Also added our family to the carpool board — we have 2 extra seats 🙌",
+        "timestamp": "1h ago"
+      }
+    ]
+  },
+  {
+    "id": "post-scr-a",
+    "author": "SC Rockstar Volleyball",
+    "initials": "RV",
+    "position": null,
+    "club": "Club Account",
+    "classYear": null,
+    "timestamp": "3h ago",
+    "isClub": true,
+    "body": "Massive weekend for our 16U Open squad. 3 players recording career-high dig sets, Sofia commits to Pepperdine, and a first-place finish at the Red Rock Rave qualifier. This team is built different. 🏐🔥",
+    "clip": {
+      "title": "Red Rock Rave 16U Open Finals",
+      "duration": "2:34",
+      "youtubeId": "XCZDoun_hR8",
+      "label": "Match Footage"
+    },
+    "platforms": [
+      "instagram",
+      "tiktok"
+    ],
+    "reactions": 52,
+    "comments": []
+  },
+  {
+    "id": "post-kt-1",
+    "author": "Katie Torres",
+    "initials": "KT",
+    "position": "Setter",
+    "club": "Coast VBC",
+    "classYear": 2028,
+    "timestamp": "4 hours ago",
+    "body": "First tournament of the season in the books ✅ Rough start but we figured it out by day 2. Growth 🏐 Big thanks to our coaching staff for pushing us when we needed it most.",
+    "photo": {
+      "url": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=600&h=400&fit=crop&q=80"
+    },
+    "platforms": [
+      "instagram",
+      "tiktok"
+    ],
+    "reactions": 142,
+    "comments": []
+  },
+  {
+    "id": "post2",
+    "author": "Taylor Marcos",
+    "initials": "TM",
+    "position": "Setter",
+    "club": "Beach Cities VB",
+    "classYear": 2028,
+    "timestamp": "5h ago",
+    "body": "Big West Qualifier weekend in the books. 28 digs, 96% passing across 6 matches. The grind doesn't stop.",
+    "clip": {
+      "title": "Tournament best digs · 1:48",
+      "duration": "1:48",
+      "youtubeId": "BpZpUsaL5sc",
+      "label": "Match Footage"
+    },
+    "platforms": [
+      "tiktok",
+      "instagram"
+    ],
+    "reactions": 38,
+    "comments": []
+  },
+  {
+    "id": "post3",
+    "author": "SC Rockstar Volleyball",
+    "initials": "RV",
+    "position": null,
+    "club": "Club Account",
+    "classYear": null,
+    "timestamp": "Yesterday",
+    "isClub": true,
+    "body": "12 D1 coaches will be at the SoCal Qualifier this weekend. Get your Scoutly profiles updated before Friday.",
+    "milestone": {
+      "type": "event",
+      "text": "SoCal Junior Qualifier — March 22–23",
+      "detail": "Long Beach CC · 16U Open · 12 D1 coaches attending"
+    },
+    "platforms": [],
+    "reactions": 47,
+    "reactLabel": "going",
+    "comments": []
+  },
+  {
+    "id": "post-br-1",
+    "author": "Brooke Rivera",
+    "initials": "BR",
+    "position": "DS",
+    "club": "SC Rockstar 15U",
+    "classYear": 2029,
+    "timestamp": "Yesterday",
+    "body": "Weekend tournament recap 📸 Went 4-1 in pool play, lost in semis but learned a TON. Already can't wait for Far Westerns. Also my serve receive is finally clicking — coach was happy 😄🏐",
+    "platforms": [
+      "instagram",
+      "snapchat"
+    ],
+    "reactions": 213,
+    "comments": []
+  },
+  {
+    "id": "post4",
+    "author": "Anika Kapoor",
+    "initials": "AK",
+    "position": "OH",
+    "club": "Mira Costa HS",
+    "classYear": 2028,
+    "timestamp": "2 days ago",
+    "body": "Grateful for the coverage. Keep putting in the work and people notice.",
+    "prQuote": {
+      "text": "Kapoor led the tournament in kills with 47 over two days, drawing attention from four D1 programs.",
+      "source": "Volleyball Mag"
+    },
+    "platforms": [
+      "x",
+      "meta"
+    ],
+    "reactions": 31,
+    "comments": []
+  },
+  {
+    "id": "post-jc-1",
+    "author": "Jessie Chen",
+    "initials": "JC",
+    "position": "OH",
+    "club": "SCVC 17U",
+    "classYear": 2027,
+    "timestamp": "2 days ago",
+    "body": "Commit szn is wild right now 👀 So happy for all my club sisters finding their homes. Our class is going to be STACKED at the next level. My time is coming. Back to work 💪 #ClubVball #Recruiting #ClassOf2027",
+    "photo": {
+      "url": "https://img.youtube.com/vi/BpZpUsaL5sc/hqdefault.jpg"
+    },
+    "platforms": [
+      "x",
+      "instagram",
+      "tiktok"
+    ],
+    "reactions": 567,
+    "comments": []
+  },
+  {
+    "id": "post-scr-b",
+    "author": "SC Rockstar Volleyball",
+    "initials": "RV",
+    "position": null,
+    "club": "Club Account",
+    "classYear": null,
+    "timestamp": "3 days ago",
+    "isClub": true,
+    "body": "Logistics for the SoCal Qualifier this weekend:\n\n📍 Long Beach Convention Center\n⏰ Check-in 7:00am · Pool play 8:00am\n🏐 16U Open bracket starts Saturday\n📋 Roster confirmation deadline: Thursday 6pm\n\nAll players must have updated Scoutly profiles with 2025 film before stepping on the court.",
+    "milestone": {
+      "type": "event",
+      "text": "SoCal Qualifier Logistics — March 22",
+      "detail": "Long Beach CC · Gate 4 · Arrive by 7:00am"
+    },
+    "platforms": [],
+    "reactions": 33,
+    "reactLabel": "going",
+    "comments": []
+  },
+  {
+    "id": "post5",
+    "author": "Jordan Ruiz",
+    "initials": "JR",
+    "position": "Libero",
+    "club": "El Segundo VB",
+    "classYear": 2028,
+    "timestamp": "4 days ago",
+    "body": "First D1 offer. This is what we worked for. Every early morning, every late night — it was all worth it.",
+    "milestone": {
+      "type": "offer",
+      "text": "Received an offer from UC Davis",
+      "detail": "Div I · Big West · Libero"
+    },
+    "platforms": [
+      "x",
+      "instagram",
+      "tiktok",
+      "meta"
+    ],
+    "reactions": 61,
+    "comments": []
+  },
+  {
+    "id": "post-scr-c",
+    "author": "SC Rockstar Volleyball",
+    "initials": "RV",
+    "position": null,
+    "club": "Club Account",
+    "classYear": null,
+    "timestamp": "5 days ago",
+    "isClub": true,
+    "body": "🚨 Coach alert: 8 D1 programs have viewed SC Rockstar 16U profiles on Scoutly this week including programs from the Big West, WCC, and Pac-12. Make sure your stats, film, and contact info are current. This is the window.",
+    "platforms": [],
+    "reactions": 89,
+    "reactLabel": "views",
+    "comments": []
+  }
+]
