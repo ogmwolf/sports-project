@@ -743,6 +743,156 @@ const SEED_CLUBS_BOYS_16U: RankingEntry[] = [
   { rank: 10, name: "Desert Elite",      city: "Phoenix",       state: "AZ", record: null, division: null, source: "seed", type: "clubs_boys_16u", scoutlyAthletes: 3 },
 ];
 
+// ── Compact seed helper ───────────────────────────────────────────
+
+function se(rank: number, name: string, city: string, state: string, type: string): RankingEntry {
+  return { rank, name, city, state, record: null, division: null, source: "seed", type, scoutlyAthletes: null };
+}
+
+// ── State seed data (fallback per state) ──────────────────────────
+
+const SEED_GIRLS_TX: RankingEntry[] = [
+  se(1, "The Woodlands HS", "The Woodlands", "TX", "varsity_girls_tx"),
+  se(2, "Katy HS", "Katy", "TX", "varsity_girls_tx"),
+  se(3, "Marcus HS", "Flower Mound", "TX", "varsity_girls_tx"),
+  se(4, "Allen HS", "Allen", "TX", "varsity_girls_tx"),
+  se(5, "Flower Mound HS", "Flower Mound", "TX", "varsity_girls_tx"),
+];
+const SEED_GIRLS_FL: RankingEntry[] = [
+  se(1, "Barron Collier HS", "Naples", "FL", "varsity_girls_fl"),
+  se(2, "Jesuit HS", "Tampa", "FL", "varsity_girls_fl"),
+  se(3, "Bishop Moore HS", "Orlando", "FL", "varsity_girls_fl"),
+  se(4, "Palm Beach Central HS", "Wellington", "FL", "varsity_girls_fl"),
+  se(5, "Plant HS", "Tampa", "FL", "varsity_girls_fl"),
+];
+const SEED_GIRLS_IL: RankingEntry[] = [
+  se(1, "Providence Catholic HS", "New Lenox", "IL", "varsity_girls_il"),
+  se(2, "Benet Academy", "Lisle", "IL", "varsity_girls_il"),
+  se(3, "Neuqua Valley HS", "Naperville", "IL", "varsity_girls_il"),
+  se(4, "Libertyville HS", "Libertyville", "IL", "varsity_girls_il"),
+  se(5, "New Trier HS", "Winnetka", "IL", "varsity_girls_il"),
+];
+const SEED_GIRLS_OH: RankingEntry[] = [
+  se(1, "Olentangy Liberty HS", "Powell", "OH", "varsity_girls_oh"),
+  se(2, "Upper Arlington HS", "Upper Arlington", "OH", "varsity_girls_oh"),
+  se(3, "Archbishop Hoban HS", "Akron", "OH", "varsity_girls_oh"),
+  se(4, "Ursuline HS", "Youngstown", "OH", "varsity_girls_oh"),
+  se(5, "Mason HS", "Mason", "OH", "varsity_girls_oh"),
+];
+const SEED_GIRLS_MN: RankingEntry[] = [
+  se(1, "Wayzata HS", "Plymouth", "MN", "varsity_girls_mn"),
+  se(2, "Eagan HS", "Eagan", "MN", "varsity_girls_mn"),
+  se(3, "Maple Grove HS", "Maple Grove", "MN", "varsity_girls_mn"),
+  se(4, "Minnetonka HS", "Minnetonka", "MN", "varsity_girls_mn"),
+  se(5, "Eden Prairie HS", "Eden Prairie", "MN", "varsity_girls_mn"),
+];
+const SEED_GIRLS_AZ: RankingEntry[] = [
+  se(1, "Sandra Day O'Connor HS", "Phoenix", "AZ", "varsity_girls_az"),
+  se(2, "Desert Vista HS", "Phoenix", "AZ", "varsity_girls_az"),
+  se(3, "Notre Dame Prep", "Scottsdale", "AZ", "varsity_girls_az"),
+  se(4, "Red Mountain HS", "Mesa", "AZ", "varsity_girls_az"),
+  se(5, "Hamilton HS", "Chandler", "AZ", "varsity_girls_az"),
+];
+const SEED_GIRLS_WI: RankingEntry[] = [
+  se(1, "Kaukauna HS", "Kaukauna", "WI", "varsity_girls_wi"),
+  se(2, "Kettle Moraine HS", "Wales", "WI", "varsity_girls_wi"),
+  se(3, "Sun Prairie HS", "Sun Prairie", "WI", "varsity_girls_wi"),
+  se(4, "Appleton North HS", "Appleton", "WI", "varsity_girls_wi"),
+  se(5, "Waunakee HS", "Waunakee", "WI", "varsity_girls_wi"),
+];
+const SEED_GIRLS_IN: RankingEntry[] = [
+  se(1, "Carmel HS", "Carmel", "IN", "varsity_girls_in"),
+  se(2, "Westfield HS", "Westfield", "IN", "varsity_girls_in"),
+  se(3, "Hamilton Southeastern HS", "Fishers", "IN", "varsity_girls_in"),
+  se(4, "Penn HS", "Mishawaka", "IN", "varsity_girls_in"),
+  se(5, "North Central HS", "Indianapolis", "IN", "varsity_girls_in"),
+];
+const SEED_GIRLS_NE: RankingEntry[] = [
+  se(1, "Omaha Westside HS", "Omaha", "NE", "varsity_girls_ne"),
+  se(2, "Millard West HS", "Omaha", "NE", "varsity_girls_ne"),
+  se(3, "Papillion-La Vista South HS", "Papillion", "NE", "varsity_girls_ne"),
+  se(4, "Lincoln East HS", "Lincoln", "NE", "varsity_girls_ne"),
+  se(5, "Norris HS", "Firth", "NE", "varsity_girls_ne"),
+];
+const SEED_GIRLS_WA: RankingEntry[] = [
+  se(1, "Skyline HS", "Sammamish", "WA", "varsity_girls_wa"),
+  se(2, "Eastside Catholic HS", "Sammamish", "WA", "varsity_girls_wa"),
+  se(3, "Olympia HS", "Olympia", "WA", "varsity_girls_wa"),
+  se(4, "Camas HS", "Camas", "WA", "varsity_girls_wa"),
+  se(5, "Emerald Ridge HS", "Puyallup", "WA", "varsity_girls_wa"),
+];
+
+const SEED_BOYS_TX: RankingEntry[] = [
+  se(1, "Lamar HS", "Houston", "TX", "varsity_boys_tx"),
+  se(2, "James Madison HS", "Houston", "TX", "varsity_boys_tx"),
+  se(3, "Kingwood Park HS", "Kingwood", "TX", "varsity_boys_tx"),
+  se(4, "Seven Lakes HS", "Katy", "TX", "varsity_boys_tx"),
+  se(5, "Hays HS", "Buda", "TX", "varsity_boys_tx"),
+];
+const SEED_BOYS_FL: RankingEntry[] = [
+  se(1, "Jesuit HS", "Tampa", "FL", "varsity_boys_fl"),
+  se(2, "Bishop Moore HS", "Orlando", "FL", "varsity_boys_fl"),
+  se(3, "Clearwater HS", "Clearwater", "FL", "varsity_boys_fl"),
+  se(4, "Fort Lauderdale HS", "Fort Lauderdale", "FL", "varsity_boys_fl"),
+  se(5, "Plantation HS", "Plantation", "FL", "varsity_boys_fl"),
+];
+const SEED_BOYS_IL: RankingEntry[] = [
+  se(1, "Deerfield HS", "Deerfield", "IL", "varsity_boys_il"),
+  se(2, "Lake Zurich HS", "Lake Zurich", "IL", "varsity_boys_il"),
+  se(3, "Stevenson HS", "Lincolnshire", "IL", "varsity_boys_il"),
+  se(4, "New Trier HS", "Winnetka", "IL", "varsity_boys_il"),
+  se(5, "Rolling Meadows HS", "Rolling Meadows", "IL", "varsity_boys_il"),
+];
+const SEED_BOYS_OH: RankingEntry[] = [
+  se(1, "Elder HS", "Cincinnati", "OH", "varsity_boys_oh"),
+  se(2, "Pickerington North HS", "Pickerington", "OH", "varsity_boys_oh"),
+  se(3, "St. Xavier HS", "Cincinnati", "OH", "varsity_boys_oh"),
+  se(4, "Mason HS", "Mason", "OH", "varsity_boys_oh"),
+  se(5, "Moeller HS", "Cincinnati", "OH", "varsity_boys_oh"),
+];
+const SEED_BOYS_HI: RankingEntry[] = [
+  se(1, "Punahou School", "Honolulu", "HI", "varsity_boys_hi"),
+  se(2, "Iolani School", "Honolulu", "HI", "varsity_boys_hi"),
+  se(3, "Moanalua HS", "Honolulu", "HI", "varsity_boys_hi"),
+  se(4, "Mililani HS", "Mililani", "HI", "varsity_boys_hi"),
+  se(5, "Kamehameha Schools", "Honolulu", "HI", "varsity_boys_hi"),
+];
+const SEED_BOYS_AZ: RankingEntry[] = [
+  se(1, "Corona del Sol HS", "Tempe", "AZ", "varsity_boys_az"),
+  se(2, "Perry HS", "Gilbert", "AZ", "varsity_boys_az"),
+  se(3, "Desert Ridge HS", "Mesa", "AZ", "varsity_boys_az"),
+  se(4, "Horizon HS", "Scottsdale", "AZ", "varsity_boys_az"),
+  se(5, "Mesa HS", "Mesa", "AZ", "varsity_boys_az"),
+];
+const SEED_BOYS_WA: RankingEntry[] = [
+  se(1, "Newport HS", "Bellevue", "WA", "varsity_boys_wa"),
+  se(2, "Bellarmine Prep", "Tacoma", "WA", "varsity_boys_wa"),
+  se(3, "Eastside Catholic HS", "Sammamish", "WA", "varsity_boys_wa"),
+  se(4, "Pasco HS", "Pasco", "WA", "varsity_boys_wa"),
+  se(5, "Redmond HS", "Redmond", "WA", "varsity_boys_wa"),
+];
+const SEED_BOYS_IN: RankingEntry[] = [
+  se(1, "Cathedral HS", "Indianapolis", "IN", "varsity_boys_in"),
+  se(2, "Carmel HS", "Carmel", "IN", "varsity_boys_in"),
+  se(3, "Munster HS", "Munster", "IN", "varsity_boys_in"),
+  se(4, "South Bend Adams HS", "South Bend", "IN", "varsity_boys_in"),
+  se(5, "Columbus North HS", "Columbus", "IN", "varsity_boys_in"),
+];
+const SEED_BOYS_UT: RankingEntry[] = [
+  se(1, "Lehi HS", "Lehi", "UT", "varsity_boys_ut"),
+  se(2, "Springville HS", "Springville", "UT", "varsity_boys_ut"),
+  se(3, "Lone Peak HS", "Highland", "UT", "varsity_boys_ut"),
+  se(4, "Orem HS", "Orem", "UT", "varsity_boys_ut"),
+  se(5, "Pleasant Grove HS", "Pleasant Grove", "UT", "varsity_boys_ut"),
+];
+const SEED_BOYS_CO: RankingEntry[] = [
+  se(1, "Columbine HS", "Littleton", "CO", "varsity_boys_co"),
+  se(2, "Cherry Creek HS", "Greenwood Village", "CO", "varsity_boys_co"),
+  se(3, "Fairview HS", "Boulder", "CO", "varsity_boys_co"),
+  se(4, "Rock Canyon HS", "Highlands Ranch", "CO", "varsity_boys_co"),
+  se(5, "Loveland HS", "Loveland", "CO", "varsity_boys_co"),
+];
+
 // ── Source registry ───────────────────────────────────────────────
 
 const SOURCES = [
@@ -809,6 +959,28 @@ const SOURCES = [
       "aes"
     ),
   },
+  // ── Girls state rankings ─────────────────────────────────────────
+  { id: "maxpreps_girls_tx", label: "MaxPreps Girls TX", fn: () => fetchMaxPreps("https://www.maxpreps.com/tx/volleyball/rankings/1/", "varsity_girls_tx", "maxpreps") },
+  { id: "maxpreps_girls_fl", label: "MaxPreps Girls FL", fn: () => fetchMaxPreps("https://www.maxpreps.com/fl/volleyball/rankings/1/", "varsity_girls_fl", "maxpreps") },
+  { id: "maxpreps_girls_il", label: "MaxPreps Girls IL", fn: () => fetchMaxPreps("https://www.maxpreps.com/il/volleyball/rankings/1/", "varsity_girls_il", "maxpreps") },
+  { id: "maxpreps_girls_oh", label: "MaxPreps Girls OH", fn: () => fetchMaxPreps("https://www.maxpreps.com/oh/volleyball/rankings/1/", "varsity_girls_oh", "maxpreps") },
+  { id: "maxpreps_girls_mn", label: "MaxPreps Girls MN", fn: () => fetchMaxPreps("https://www.maxpreps.com/mn/volleyball/rankings/1/", "varsity_girls_mn", "maxpreps") },
+  { id: "maxpreps_girls_az", label: "MaxPreps Girls AZ", fn: () => fetchMaxPreps("https://www.maxpreps.com/az/volleyball/rankings/1/", "varsity_girls_az", "maxpreps") },
+  { id: "maxpreps_girls_wi", label: "MaxPreps Girls WI", fn: () => fetchMaxPreps("https://www.maxpreps.com/wi/volleyball/rankings/1/", "varsity_girls_wi", "maxpreps") },
+  { id: "maxpreps_girls_in", label: "MaxPreps Girls IN", fn: () => fetchMaxPreps("https://www.maxpreps.com/in/volleyball/rankings/1/", "varsity_girls_in", "maxpreps") },
+  { id: "maxpreps_girls_ne", label: "MaxPreps Girls NE", fn: () => fetchMaxPreps("https://www.maxpreps.com/ne/volleyball/rankings/1/", "varsity_girls_ne", "maxpreps") },
+  { id: "maxpreps_girls_wa", label: "MaxPreps Girls WA", fn: () => fetchMaxPreps("https://www.maxpreps.com/wa/volleyball/rankings/1/", "varsity_girls_wa", "maxpreps") },
+  // ── Boys state rankings ──────────────────────────────────────────
+  { id: "maxpreps_boys_tx", label: "MaxPreps Boys TX", fn: () => fetchMaxPreps("https://www.maxpreps.com/tx/volleyball/boys/rankings/1/", "varsity_boys_tx", "maxpreps") },
+  { id: "maxpreps_boys_fl", label: "MaxPreps Boys FL", fn: () => fetchMaxPreps("https://www.maxpreps.com/fl/volleyball/boys/rankings/1/", "varsity_boys_fl", "maxpreps") },
+  { id: "maxpreps_boys_il", label: "MaxPreps Boys IL", fn: () => fetchMaxPreps("https://www.maxpreps.com/il/volleyball/boys/rankings/1/", "varsity_boys_il", "maxpreps") },
+  { id: "maxpreps_boys_oh", label: "MaxPreps Boys OH", fn: () => fetchMaxPreps("https://www.maxpreps.com/oh/volleyball/boys/rankings/1/", "varsity_boys_oh", "maxpreps") },
+  { id: "maxpreps_boys_hi", label: "MaxPreps Boys HI", fn: () => fetchMaxPreps("https://www.maxpreps.com/hi/volleyball/boys/rankings/1/", "varsity_boys_hi", "maxpreps") },
+  { id: "maxpreps_boys_az", label: "MaxPreps Boys AZ", fn: () => fetchMaxPreps("https://www.maxpreps.com/az/volleyball/boys/rankings/1/", "varsity_boys_az", "maxpreps") },
+  { id: "maxpreps_boys_wa", label: "MaxPreps Boys WA", fn: () => fetchMaxPreps("https://www.maxpreps.com/wa/volleyball/boys/rankings/1/", "varsity_boys_wa", "maxpreps") },
+  { id: "maxpreps_boys_in", label: "MaxPreps Boys IN", fn: () => fetchMaxPreps("https://www.maxpreps.com/in/volleyball/boys/rankings/1/", "varsity_boys_in", "maxpreps") },
+  { id: "maxpreps_boys_ut", label: "MaxPreps Boys UT", fn: () => fetchMaxPreps("https://www.maxpreps.com/ut/volleyball/boys/rankings/1/", "varsity_boys_ut", "maxpreps") },
+  { id: "maxpreps_boys_co", label: "MaxPreps Boys CO", fn: () => fetchMaxPreps("https://www.maxpreps.com/co/volleyball/boys/rankings/1/", "varsity_boys_co", "maxpreps") },
 ];
 
 // ── Route handler ─────────────────────────────────────────────────
@@ -858,6 +1030,28 @@ export async function GET() {
   const clubsGirls    = get("vballrecruiter",          SEED_CLUBS_GIRLS_ALL);
   const clubsGirls16u = get("aes_girls_16u",           SEED_CLUBS_GIRLS_16U);
   const clubsBoys16u  = get("aes_boys_16u",            SEED_CLUBS_BOYS_16U);
+  // Girls states
+  const girlsTX = get("maxpreps_girls_tx", SEED_GIRLS_TX);
+  const girlsFL = get("maxpreps_girls_fl", SEED_GIRLS_FL);
+  const girlsIL = get("maxpreps_girls_il", SEED_GIRLS_IL);
+  const girlsOH = get("maxpreps_girls_oh", SEED_GIRLS_OH);
+  const girlsMN = get("maxpreps_girls_mn", SEED_GIRLS_MN);
+  const girlsAZ = get("maxpreps_girls_az", SEED_GIRLS_AZ);
+  const girlsWI = get("maxpreps_girls_wi", SEED_GIRLS_WI);
+  const girlsIN = get("maxpreps_girls_in", SEED_GIRLS_IN);
+  const girlsNE = get("maxpreps_girls_ne", SEED_GIRLS_NE);
+  const girlsWA = get("maxpreps_girls_wa", SEED_GIRLS_WA);
+  // Boys states
+  const boysTX = get("maxpreps_boys_tx", SEED_BOYS_TX);
+  const boysFL = get("maxpreps_boys_fl", SEED_BOYS_FL);
+  const boysIL = get("maxpreps_boys_il", SEED_BOYS_IL);
+  const boysOH = get("maxpreps_boys_oh", SEED_BOYS_OH);
+  const boysHI = get("maxpreps_boys_hi", SEED_BOYS_HI);
+  const boysAZ = get("maxpreps_boys_az", SEED_BOYS_AZ);
+  const boysWA = get("maxpreps_boys_wa", SEED_BOYS_WA);
+  const boysIN = get("maxpreps_boys_in", SEED_BOYS_IN);
+  const boysUT = get("maxpreps_boys_ut", SEED_BOYS_UT);
+  const boysCO = get("maxpreps_boys_co", SEED_BOYS_CO);
 
   const allFailed = succeeded.length === 0;
 
@@ -867,10 +1061,30 @@ export async function GET() {
       girls: {
         ca:       { data: girlsCA.data,       fromCache: girlsCA.fromCache },
         national: { data: girlsNational.data, fromCache: girlsNational.fromCache },
+        tx:       { data: girlsTX.data,       fromCache: girlsTX.fromCache },
+        fl:       { data: girlsFL.data,       fromCache: girlsFL.fromCache },
+        il:       { data: girlsIL.data,       fromCache: girlsIL.fromCache },
+        oh:       { data: girlsOH.data,       fromCache: girlsOH.fromCache },
+        mn:       { data: girlsMN.data,       fromCache: girlsMN.fromCache },
+        az:       { data: girlsAZ.data,       fromCache: girlsAZ.fromCache },
+        wi:       { data: girlsWI.data,       fromCache: girlsWI.fromCache },
+        in:       { data: girlsIN.data,       fromCache: girlsIN.fromCache },
+        ne:       { data: girlsNE.data,       fromCache: girlsNE.fromCache },
+        wa:       { data: girlsWA.data,       fromCache: girlsWA.fromCache },
       },
       boys: {
         ca:       { data: boysCA.data,       fromCache: boysCA.fromCache },
         national: { data: boysNational.data, fromCache: boysNational.fromCache },
+        tx:       { data: boysTX.data,       fromCache: boysTX.fromCache },
+        fl:       { data: boysFL.data,       fromCache: boysFL.fromCache },
+        il:       { data: boysIL.data,       fromCache: boysIL.fromCache },
+        oh:       { data: boysOH.data,       fromCache: boysOH.fromCache },
+        hi:       { data: boysHI.data,       fromCache: boysHI.fromCache },
+        az:       { data: boysAZ.data,       fromCache: boysAZ.fromCache },
+        wa:       { data: boysWA.data,       fromCache: boysWA.fromCache },
+        in:       { data: boysIN.data,       fromCache: boysIN.fromCache },
+        ut:       { data: boysUT.data,       fromCache: boysUT.fromCache },
+        co:       { data: boysCO.data,       fromCache: boysCO.fromCache },
       },
     },
     clubs: {
@@ -886,12 +1100,7 @@ export async function GET() {
       succeeded,
       failed,
       timestamp,
-      lastUpdated: {
-        girls_ca:       lastUpdatedMap["maxpreps_girls_ca"]       ?? null,
-        boys_ca:        lastUpdatedMap["maxpreps_boys_ca"]        ?? null,
-        girls_national: lastUpdatedMap["maxpreps_girls_national"] ?? null,
-        boys_national:  lastUpdatedMap["maxpreps_boys_national"]  ?? null,
-      },
+      lastUpdated: lastUpdatedMap,
     },
   });
 }

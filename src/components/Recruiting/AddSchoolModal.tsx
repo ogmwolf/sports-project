@@ -25,7 +25,7 @@ export default function AddSchoolModal({ open, onClose }: Props) {
     addSchool({
       id, name: name.trim(), abbr: name.trim().slice(0, 4).toUpperCase(),
       division, conference: conference || "Independent",
-      location: "", color: "#4B5563",
+      location: "", color: "#4B5563", coach: "",
       status, lastContact: "—", notes: notes.trim(),
       pipelineStep: STATUS_TO_STEP[status] ?? 0,
     });

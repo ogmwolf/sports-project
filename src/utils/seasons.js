@@ -362,6 +362,7 @@ function normalizeSport(sport) {
   return (sport || "").toLowerCase().replace(/\s+/g, "").replace(/_/g, "");
 }
 
+/** @param {string} sport @param {string | null} [gender] */
 export function getCurrentSeason(sport, gender = null) {
   const month = new Date().getMonth() + 1;
   const sportData = SEASONS[normalizeSport(sport)];
@@ -373,6 +374,7 @@ export function getCurrentSeason(sport, gender = null) {
   return seasons.find(s => s.months.includes(month)) || null;
 }
 
+/** @param {string} sport @param {string | null} [gender] */
 export function getNextSeason(sport, gender = null) {
   const month = new Date().getMonth() + 1;
   const sportData = SEASONS[normalizeSport(sport)];
@@ -389,6 +391,7 @@ export function getNextSeason(sport, gender = null) {
   })[0] || null;
 }
 
+/** @param {string[]} sports @param {string | null} [gender] */
 export function getActiveSports(sports, gender = null) {
   if (!sports || !sports.length) return [];
   const month = new Date().getMonth() + 1;
@@ -405,6 +408,7 @@ export function getActiveSports(sports, gender = null) {
   return [sports[0]];
 }
 
+/** @param {string | null} [gender] */
 export function getAllInSeasonSports(gender = null) {
   const month = new Date().getMonth() + 1;
   return Object.entries(SEASONS)
@@ -416,6 +420,7 @@ export function getAllInSeasonSports(gender = null) {
     .map(([key]) => key);
 }
 
+/** @param {string} sport @param {string | null} [gender] */
 export function getSeasonNewsBoost(sport, gender = null) {
   const season = getCurrentSeason(sport, gender);
   if (!season) return [];

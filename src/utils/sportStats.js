@@ -113,7 +113,7 @@ export function formatStat(value, format) {
   return String(value);
 }
 
-// Returns 4 { label, value } pairs for the given sport
+/** @returns {{ label: string; value: string }[]} */
 export function getDisplayStats(sport, athlete) {
   const key = normalizeSport(sport);
   const defs = SPORT_STATS[key] || SPORT_STATS.other;

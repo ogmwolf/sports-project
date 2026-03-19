@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import type { JSX } from "react";
 import { useApp } from "@/context/AppContext";
 
 const POST_TYPES = ["Milestone", "Clip", "Tournament", "PR", "Photos", "Other"];

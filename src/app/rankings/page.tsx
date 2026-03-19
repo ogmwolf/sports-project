@@ -28,8 +28,8 @@ interface LiveSection {
 interface LiveData {
   fallback: boolean;
   varsity: {
-    girls: { ca: LiveSection; national: LiveSection };
-    boys:  { ca: LiveSection; national: LiveSection };
+    girls: Record<string, LiveSection>;
+    boys:  Record<string, LiveSection>;
   };
   clubs: {
     girls: { u16: LiveSection; all: LiveSection };
@@ -39,12 +39,7 @@ interface LiveData {
     succeeded: string[];
     failed: string[];
     timestamp: string;
-    lastUpdated: {
-      girls_ca: string | null;
-      boys_ca: string | null;
-      girls_national: string | null;
-      boys_national: string | null;
-    } | null;
+    lastUpdated: Record<string, string> | null;
   };
 }
 
@@ -301,7 +296,7 @@ function ScrapedClubRow({ entry, isLast }: { entry: RankingEntry; isLast: boolea
   );
 }
 
-function ScrapedHSRow({ entry, isLast }: { entry: RankingEntry; isLast: boolean }) {
+function ScrapedHSRow({ entry, isLast, query = "" }: { entry: RankingEntry; isLast: boolean; query?: string }) {
   const isMira = entry.name.toLowerCase().includes("mira costa");
   const loc = [entry.city, entry.state].filter(Boolean).join(", ");
   const { move, moveAmt } = getVarsityMovement(entry.name);
@@ -319,7 +314,9 @@ function ScrapedHSRow({ entry, isLast }: { entry: RankingEntry; isLast: boolean 
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-          <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{entry.name}</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>
+            <HighlightMatch text={entry.name} query={query} />
+          </span>
           {isMira && (
             <span style={{ background: "#1A6B3C", color: "white", fontSize: 10, fontWeight: 700, borderRadius: 4, padding: "2px 6px" }}>Your school 🏐</span>
           )}
@@ -440,44 +437,99 @@ function ClubsTab({ clubs, boysClubs, liveData }: { clubs: Club[]; boysClubs: Cl
 
 // ── Varsity tab ───────────────────────────────────────────────────
 
-const VARSITY_SECTIONS = [
-  "CIF Southern Section",
-  "CIF NorCal",
-  "Texas UIL",
-  "Florida FHSAA",
-  "Illinois IHSA",
-  "National",
+const GIRLS_STATE_OPTIONS = [
+  { key: "national", label: "National" },
+  { key: "ca", label: "California" },
+  { key: "tx", label: "Texas" },
+  { key: "fl", label: "Florida" },
+  { key: "il", label: "Illinois" },
+  { key: "oh", label: "Ohio" },
+  { key: "mn", label: "Minnesota" },
+  { key: "az", label: "Arizona" },
+  { key: "wi", label: "Wisconsin" },
+  { key: "in", label: "Indiana" },
+  { key: "ne", label: "Nebraska" },
+  { key: "wa", label: "Washington" },
 ];
 
+const BOYS_STATE_OPTIONS = [
+  { key: "national", label: "National" },
+  { key: "ca", label: "California" },
+  { key: "tx", label: "Texas" },
+  { key: "fl", label: "Florida" },
+  { key: "il", label: "Illinois" },
+  { key: "oh", label: "Ohio" },
+  { key: "hi", label: "Hawaii" },
+  { key: "az", label: "Arizona" },
+  { key: "wa", label: "Washington" },
+  { key: "in", label: "Indiana" },
+  { key: "ut", label: "Utah" },
+  { key: "co", label: "Colorado" },
+];
+
+function HighlightMatch({ text, query }: { text: string; query: string }) {
+  if (!query.trim()) return <>{text}</>;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx < 0) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark style={{ background: "#FFF3B0", color: "#111", borderRadius: 2, padding: 0 }}>
+        {text.slice(idx, idx + query.length)}
+      </mark>
+      {text.slice(idx + query.length)}
+    </>
+  );
+}
+
 function VarsityTab({
-  liveGirlsData,
-  liveBoysData,
-  lastUpdatedGirls,
-  lastUpdatedBoys,
+  girlsVarsity,
+  boysVarsity,
+  lastUpdated,
 }: {
-  liveGirlsData?: LiveSection;
-  liveBoysData?: LiveSection;
-  lastUpdatedGirls?: string | null;
-  lastUpdatedBoys?: string | null;
+  girlsVarsity?: Record<string, LiveSection>;
+  boysVarsity?: Record<string, LiveSection>;
+  lastUpdated?: Record<string, string> | null;
 }) {
   const [gender, setGender] = useState<"girls" | "boys">("girls");
-  const [section, setSection] = useState("CIF Southern Section");
+  const [stateKey, setStateKey] = useState("national");
+  const [search, setSearch] = useState("");
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [expandedSchool, setExpandedSchool] = useState<string | null>(null);
 
   const isBoys = gender === "boys";
-  const isCIFSouthern = section === "CIF Southern Section";
-  const liveSection = isBoys ? liveBoysData : liveGirlsData;
-  const showLive = !!(liveSection && !liveSection.fromCache && liveSection.data.length > 0);
+  const stateOptions = isBoys ? BOYS_STATE_OPTIONS : GIRLS_STATE_OPTIONS;
+  const varsityByGender = isBoys ? boysVarsity : girlsVarsity;
+  const liveSection = varsityByGender?.[stateKey];
+  const isCA = stateKey === "ca";
+  const isFromCache = liveSection?.fromCache ?? true;
+  // Use rich CA seed rows only when CA is selected and we have no live data
+  const showRichCASeed = isCA && isFromCache;
+  const hasLiveData = !!(liveSection && liveSection.data.length > 0);
+  const selectedLabel = stateOptions.find(o => o.key === stateKey)?.label ?? "National";
+  const title = `Top 25 ${gender === "girls" ? "Girls" : "Boys"} — ${selectedLabel}`;
+  const lastUpdatedDate = lastUpdated?.[`maxpreps_${gender}_${stateKey}`] ?? null;
   const seedData = isBoys ? BOYS_CIF_SOUTHERN : GIRLS_CIF_SOUTHERN;
 
+  // Filtered entries for scraped-rows path
+  const allEntries = liveSection?.data ?? [];
+  const filteredEntries = search.trim()
+    ? allEntries.filter(e => e.name.toLowerCase().includes(search.toLowerCase()))
+    : allEntries;
+
+  // Close tooltip on Escape
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") setTooltipOpen(false);
+  };
+
   return (
-    <div>
+    <div onKeyDown={handleKeyDown}>
       {/* Gender toggle */}
       <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
         {(["girls", "boys"] as const).map(g => (
           <button
             key={g}
-            onClick={() => setGender(g)}
+            onClick={() => { setGender(g); setStateKey("national"); setSearch(""); setExpandedSchool(null); }}
             style={{
               borderRadius: 20, padding: "6px 22px", fontSize: 13, fontWeight: 700,
               border: gender === g ? "none" : "1px solid #ddd",
@@ -489,116 +541,165 @@ function VarsityTab({
         ))}
       </div>
 
-      {/* Section dropdown */}
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
+      {/* State dropdown + ⓘ button row */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
         <div style={{ position: "relative" }}>
           <select
-            value={section}
-            onChange={e => setSection(e.target.value)}
+            value={stateKey}
+            onChange={e => { setStateKey(e.target.value); setSearch(""); setExpandedSchool(null); }}
             style={{ border: "1px solid #ddd", borderRadius: 20, padding: "5px 28px 5px 14px", fontSize: 12, color: "#555", background: "white", cursor: "pointer", appearance: "none", WebkitAppearance: "none", fontFamily: "inherit" }}
           >
-            {VARSITY_SECTIONS.map(s => <option key={s}>{s}</option>)}
+            {stateOptions.map(o => <option key={o.key} value={o.key}>{o.label}</option>)}
           </select>
           <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#999" strokeWidth={2} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
             <path d="M6 9l6 6 6-6"/>
           </svg>
         </div>
+        {/* Search input */}
+        <div style={{ position: "relative", flex: 1 }}>
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search schools..."
+            style={{ width: "100%", padding: "5px 28px 5px 10px", border: "1px solid #ddd", borderRadius: 20, fontSize: 12, color: "#555", background: "white", fontFamily: "inherit", boxSizing: "border-box" as const, outline: "none" }}
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#bbb", padding: 0, fontSize: 14, lineHeight: 1 }}
+            >×</button>
+          )}
+        </div>
       </div>
 
-      {/* Attribution */}
-      <div style={{ textAlign: "right", fontSize: 10, color: "#999", marginBottom: 12 }}>
-        {(() => {
-          const date = isBoys ? lastUpdatedBoys : lastUpdatedGirls;
-          return date ? `via MaxPreps · Updated ${date}` : "via MaxPreps";
-        })()}
-      </div>
-
-      {!isCIFSouthern ? (
-        <div style={{
-          background: "white", border: "1px solid #e8e8e8", borderRadius: 10,
-          padding: "40px 20px", textAlign: "center",
-        }}>
-          <div style={{ fontSize: 13, color: "#999" }}>
-            Rankings for this section coming soon. Check back weekly.
+      {/* Title + attribution row */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: "#111" }}>{title}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, position: "relative" }}>
+          <div style={{ fontSize: 10, color: "#999" }}>
+            {lastUpdatedDate ? `via MaxPreps · Updated ${lastUpdatedDate}` : "via MaxPreps"}
           </div>
+          <button
+            onClick={() => setTooltipOpen(o => !o)}
+            style={{ background: "none", border: "1px solid #ddd", borderRadius: "50%", width: 16, height: 16, cursor: "pointer", fontSize: 9, color: "#999", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: 0 }}
+            aria-label="About rankings"
+          >ⓘ</button>
+          {tooltipOpen && (
+            <>
+              <div onClick={() => setTooltipOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 100 }} />
+              <div style={{
+                position: "absolute", right: 0, top: "100%", marginTop: 6, zIndex: 101,
+                background: "white", border: "1px solid #e8e8e8", borderRadius: 10,
+                padding: "12px 14px", width: 260, fontSize: 12, color: "#444", lineHeight: 1.6,
+                boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+              }}>
+                <div style={{ fontWeight: 700, marginBottom: 6, fontSize: 13 }}>About these rankings</div>
+                MaxPreps aggregates results from reported high school games across the US. Rankings reflect win-loss record, strength of schedule, and playoff performance. Updated weekly during the season.
+                <div style={{ marginTop: 8, color: "#aaa", fontSize: 11 }}>Scoutly is not affiliated with MaxPreps.</div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {isBoys && (
+        <div style={{ fontStyle: "italic", fontSize: 11, color: "#999", marginBottom: 10 }}>
+          Boys volleyball is a spring sport. Spring 2026 season underway — rankings update weekly.
+        </div>
+      )}
+
+      {/* List */}
+      {showRichCASeed ? (
+        // Rich CA seed rows with expandable detail
+        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+          {seedData.map((school, i) => {
+            const isExpanded = expandedSchool === school.name;
+            const isLast = i === seedData.length - 1;
+            return (
+              <div key={school.name}>
+                <div
+                  onClick={() => setExpandedSchool(isExpanded ? null : school.name)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 12, padding: "14px 16px",
+                    borderBottom: (!isExpanded && !isLast) ? "1px solid #f5f5f5" : "none",
+                    background: school.isMySchool ? "#E8F5EE" : "white",
+                    borderLeft: school.isMySchool ? "3px solid #1A6B3C" : "3px solid transparent",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={e => { if (!school.isMySchool) e.currentTarget.style.background = "#fafaf8"; }}
+                  onMouseLeave={e => { if (!school.isMySchool) e.currentTarget.style.background = school.isMySchool ? "#E8F5EE" : "white"; }}
+                >
+                  <div style={{ width: 32, textAlign: "right", flexShrink: 0, ...rankStyle(school.rank) }}>{school.rank}</div>
+                  <div style={{ width: 40, flexShrink: 0, textAlign: "center" }}>
+                    <MoveBadge move={school.move} amt={school.moveAmt} />
+                  </div>
+                  <Avatar initials={school.initials} bg={school.avatarBg} color={school.avatarColor} size={44} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{school.name}</span>
+                      {school.isMySchool && (
+                        <span style={{ background: "#1A6B3C", color: "white", fontSize: 10, fontWeight: 700, borderRadius: 4, padding: "2px 6px" }}>Your school 🏐</span>
+                      )}
+                    </div>
+                    <div style={{ fontSize: 12, color: "#999", marginTop: 2 }}>{school.location}</div>
+                  </div>
+                  {school.record && (
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#111", flexShrink: 0 }}>{school.record}</div>
+                  )}
+                  <span style={{ fontSize: 12, color: "#ccc", flexShrink: 0 }}>›</span>
+                </div>
+                {isExpanded && (
+                  <div style={{
+                    background: "#fafaf8", borderLeft: "3px solid #1A6B3C",
+                    padding: "12px 14px", margin: "4px 16px 8px",
+                    fontSize: 12, color: "#444", lineHeight: 1.8, borderRadius: 6,
+                    borderBottom: !isLast ? "1px solid #f5f5f5" : "none",
+                  }}>
+                    <div>Division: <strong>{school.division}</strong></div>
+                    <div>2025 CIF finish: <strong>{school.cifFinish}</strong></div>
+                    <div>Head coach: <strong>{school.headCoach}</strong></div>
+                    <button style={{ marginTop: 6, background: "none", border: "none", color: "#1A6B3C", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: 0 }}>
+                      View school profile →
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : hasLiveData ? (
+        // Scraped rows (live or other-state seed data)
+        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+          {filteredEntries.length > 0 ? (
+            filteredEntries.map((entry, i) => (
+              <ScrapedHSRow
+                key={entry.rank}
+                entry={entry}
+                isLast={i === filteredEntries.length - 1}
+                query={search}
+              />
+            ))
+          ) : (
+            <div style={{ padding: "28px 16px", textAlign: "center" }}>
+              <div style={{ fontSize: 13, color: "#999", marginBottom: 8 }}>
+                No results for &ldquo;{search}&rdquo;
+              </div>
+              <a
+                href={`https://www.maxpreps.com/volleyball/rankings/1/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontSize: 12, color: "#1A6B3C", fontWeight: 700, textDecoration: "none" }}
+              >
+                Search on MaxPreps →
+              </a>
+            </div>
+          )}
         </div>
       ) : (
-        <>
-          {isBoys && (
-            <div style={{ fontStyle: "italic", fontSize: 11, color: "#999", marginBottom: 10 }}>
-              Boys volleyball is a spring sport. Spring 2026 season underway — rankings update weekly.
-            </div>
-          )}
-          {showLive ? (
-            <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-              {liveSection!.data.map((entry, i) => (
-                <ScrapedHSRow
-                  key={entry.rank}
-                  entry={entry}
-                  isLast={i === liveSection!.data.length - 1}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-              {seedData.map((school, i) => {
-                const isExpanded = expandedSchool === school.name;
-                const isLast = i === seedData.length - 1;
-                return (
-                  <div key={school.name}>
-                    <div
-                      onClick={() => setExpandedSchool(isExpanded ? null : school.name)}
-                      style={{
-                        display: "flex", alignItems: "center", gap: 12,
-                        padding: "14px 16px",
-                        borderBottom: (!isExpanded && !isLast) ? "1px solid #f5f5f5" : "none",
-                        background: school.isMySchool ? "#E8F5EE" : "white",
-                        borderLeft: school.isMySchool ? "3px solid #1A6B3C" : "3px solid transparent",
-                        cursor: "pointer",
-                      }}
-                      onMouseEnter={e => { if (!school.isMySchool) e.currentTarget.style.background = "#fafaf8"; }}
-                      onMouseLeave={e => { if (!school.isMySchool) e.currentTarget.style.background = school.isMySchool ? "#E8F5EE" : "white"; }}
-                    >
-                      <div style={{ width: 32, textAlign: "right", flexShrink: 0, ...rankStyle(school.rank) }}>{school.rank}</div>
-                      <div style={{ width: 40, flexShrink: 0, textAlign: "center" }}>
-                        <MoveBadge move={school.move} amt={school.moveAmt} />
-                      </div>
-                      <Avatar initials={school.initials} bg={school.avatarBg} color={school.avatarColor} size={44} />
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                          <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{school.name}</span>
-                          {school.isMySchool && (
-                            <span style={{ background: "#1A6B3C", color: "white", fontSize: 10, fontWeight: 700, borderRadius: 4, padding: "2px 6px" }}>Your school 🏐</span>
-                          )}
-                        </div>
-                        <div style={{ fontSize: 12, color: "#999", marginTop: 2 }}>{school.location}</div>
-                      </div>
-                      {school.record && (
-                        <div style={{ fontSize: 13, fontWeight: 700, color: "#111", flexShrink: 0 }}>{school.record}</div>
-                      )}
-                      <span style={{ fontSize: 12, color: "#ccc", flexShrink: 0 }}>›</span>
-                    </div>
-                    {isExpanded && (
-                      <div style={{
-                        background: "#fafaf8", borderLeft: "3px solid #1A6B3C",
-                        padding: "12px 14px", margin: "4px 16px 8px",
-                        fontSize: 12, color: "#444", lineHeight: 1.8, borderRadius: 6,
-                        borderBottom: !isLast ? "1px solid #f5f5f5" : "none",
-                      }}>
-                        <div>Division: <strong>{school.division}</strong></div>
-                        <div>2025 CIF finish: <strong>{school.cifFinish}</strong></div>
-                        <div>Head coach: <strong>{school.headCoach}</strong></div>
-                        <button style={{ marginTop: 6, background: "none", border: "none", color: "#1A6B3C", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: 0 }}>
-                          View school profile →
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </>
+        <div style={{ background: "white", border: "1px solid #e8e8e8", borderRadius: 10, padding: "40px 20px", textAlign: "center" }}>
+          <div style={{ fontSize: 13, color: "#999" }}>Rankings for this state coming soon.</div>
+        </div>
       )}
     </div>
   );
@@ -656,11 +757,10 @@ export default function RankingsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const liveClubsSection  = liveData?.clubs.girls.all;
-  const liveGirlsHS      = liveData?.varsity.girls.ca;
-  const liveBoysHS       = liveData?.varsity.boys.ca;
-  const lastUpdatedGirls = liveData?.sources.lastUpdated?.girls_ca ?? null;
-  const lastUpdatedBoys  = liveData?.sources.lastUpdated?.boys_ca  ?? null;
+  const liveClubsSection = liveData?.clubs.girls.all;
+  const girlsVarsity     = liveData?.varsity.girls;
+  const boysVarsity      = liveData?.varsity.boys;
+  const lastUpdated      = liveData?.sources.lastUpdated ?? null;
 
   return (
     <div>
@@ -704,7 +804,7 @@ export default function RankingsPage() {
       ) : (
         <>
           {tab === "clubs" && <ClubsTab clubs={CLUBS} boysClubs={BOYS_CLUBS} liveData={liveClubsSection} />}
-          {tab === "hs"    && <VarsityTab liveGirlsData={liveGirlsHS} liveBoysData={liveBoysHS} lastUpdatedGirls={lastUpdatedGirls} lastUpdatedBoys={lastUpdatedBoys} />}
+          {tab === "hs"    && <VarsityTab girlsVarsity={girlsVarsity} boysVarsity={boysVarsity} lastUpdated={lastUpdated} />}
           {tab === "jv"    && <JVTab />}
         </>
       )}
