@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import NewsCard from "@/components/Feed/NewsCard";
+import nilNewsData from "@/data/nil-news.json";
 
 const TOP_CLUBS = [
   { rank: 1, name: "SC Rockstar",    location: "Manhattan Beach CA", initials: "SR", bg: "#1A6B3C", color: "white" },
@@ -43,6 +44,64 @@ const EVENTS: Event[] = [
   { name: "SCVA Fall Classic",       dates: "Sep 6–7",      venue: "Ontario CC",               divisions: "14U–18U",                detail: "Season opener. Non-qualifier — great for early-season competition.",          url: "#" },
 ];
 
+// ── NIL tag color helper ────────────────────────────────────────────────────
+function nilTagStyle(tag: string): React.CSSProperties {
+  switch (tag) {
+    case "NCAA":       return { background: "#E6F1FB", color: "#0C447C" };
+    case "Collective": return { background: "#EEEDFE", color: "#3C3489" };
+    case "Deal":       return { background: "#E8F5EE", color: "#0F4A28" };
+    case "Revenue":    return { background: "#FAEEDA", color: "#633806" };
+    case "Policy":     return { background: "#FAECE7", color: "#712B13" };
+    default:           return { background: "#f0f0f0", color: "#555" };
+  }
+}
+
+// ── NIL Updates widget ──────────────────────────────────────────────────────
+const TOP_NIL_STORIES = nilNewsData.slice(0, 3);
+
+function NILWidget() {
+  return (
+    <div className="card" style={{ marginTop: 8 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+        <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-muted)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          NIL Updates
+        </div>
+        <Link href="/recruiting?tab=nil" style={{ fontSize: 11, fontWeight: 700, color: "#1A6B3C", textDecoration: "none" }}>
+          See all →
+        </Link>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {TOP_NIL_STORIES.map(story => (
+          <a
+            key={story.id}
+            href={story.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "none", display: "block" }}
+          >
+            <span style={{
+              ...nilTagStyle(story.tag),
+              borderRadius: 20, padding: "2px 7px",
+              fontSize: 10, fontWeight: 700,
+              display: "inline-block", marginBottom: 3,
+            }}>
+              {story.tag}
+            </span>
+            <div style={{
+              fontSize: 12, fontWeight: 600, color: "#111", lineHeight: 1.4,
+              overflow: "hidden", display: "-webkit-box",
+              WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
+            }}>
+              {story.headline}
+            </div>
+            <div style={{ fontSize: 10, color: "#999", marginTop: 2 }}>{story.source}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function RightSidebar() {
   const [followed, setFollowed] = useState<Set<string>>(new Set());
   const [showAllPeople, setShowAllPeople] = useState(false);
@@ -81,6 +140,9 @@ export default function RightSidebar() {
 
       {/* News card */}
       <NewsCard />
+
+      {/* NIL Updates widget */}
+      <NILWidget />
 
       {/* Athletes you may know */}
       <div className="card" style={{ marginTop: 8 }}>

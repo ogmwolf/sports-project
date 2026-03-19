@@ -318,6 +318,459 @@ function OutreachTab({ schools, showToast }: { schools: School[]; showToast: (ms
   );
 }
 
+// ─── NILTab ───────────────────────────────────────────────────────────────────
+
+type NILSubTab = "Opportunities" | "News";
+
+const NIL_POSITIONS = ["All", "OH", "Libero", "Setter", "MB", "DS", "Opp"];
+const NIL_DIVISIONS = ["All", "D1", "D2", "D3"];
+
+interface NILOpportunity {
+  id: string;
+  school: string;
+  conference: string;
+  division: string;
+  badgeType: "Verified Program" | "Collective";
+  positions: string[];
+  gradYears: string;
+  allocation: string;
+  spots: number;
+  deadline: string;
+  requirements: string;
+}
+
+const NIL_OPPORTUNITIES: NILOpportunity[] = [
+  {
+    id: "ucla",
+    school: "UCLA Bruins",
+    conference: "Big Ten",
+    division: "D1",
+    badgeType: "Collective",
+    positions: ["OH", "Libero"],
+    gradYears: "2025, 2026",
+    allocation: "$8,000 – $15,000",
+    spots: 2,
+    deadline: "April 15, 2026",
+    requirements: "Minimum 2.8 GPA required. Must be enrolled or committed to UCLA. Includes 4 community engagement events per year and 2 sponsored social media posts per month.",
+  },
+  {
+    id: "pepperdine",
+    school: "Pepperdine Waves",
+    conference: "WCC",
+    division: "D1",
+    badgeType: "Verified Program",
+    positions: ["Setter", "DS"],
+    gradYears: "2026, 2027",
+    allocation: "$5,000 – $10,000",
+    spots: 1,
+    deadline: "May 1, 2026",
+    requirements: "Must be enrolled at Pepperdine. Content creation for Waves Athletics social channels 3× per month. No competing brand deals in the same category during the contract period.",
+  },
+  {
+    id: "stanford",
+    school: "Stanford Cardinal",
+    conference: "ACC",
+    division: "D1",
+    badgeType: "Collective",
+    positions: ["MB", "OH"],
+    gradYears: "2025, 2026",
+    allocation: "$12,000 – $20,000",
+    spots: 1,
+    deadline: "March 31, 2026",
+    requirements: "Stanford enrollment required. Minimum 3.0 GPA. Includes quarterly ambassador events, branded content creation, and two youth camp appearances per academic year.",
+  },
+  {
+    id: "kentucky",
+    school: "Kentucky Wildcats",
+    conference: "SEC",
+    division: "D1",
+    badgeType: "Verified Program",
+    positions: ["Libero", "DS"],
+    gradYears: "2025, 2026, 2027",
+    allocation: "$6,000 – $12,000",
+    spots: 3,
+    deadline: "April 30, 2026",
+    requirements: "Must be actively rostered or committed to Kentucky. Two brand activation events per semester. All content requires compliance pre-approval. SEC disclosure rules apply.",
+  },
+  {
+    id: "nebraska",
+    school: "Nebraska Cornhuskers",
+    conference: "Big Ten",
+    division: "D1",
+    badgeType: "Collective",
+    positions: ["OH", "Setter", "MB", "Libero", "DS", "Opp"],
+    gradYears: "2025, 2026",
+    allocation: "$10,000 – $18,000",
+    spots: 2,
+    deadline: "April 20, 2026",
+    requirements: "Open to all positions — strong preference for in-state ties. Nebraska enrollment required. Monthly appearances at Lincoln sponsor locations. Heavy focus on local brand partnerships.",
+  },
+  {
+    id: "pennstate",
+    school: "Penn State Nittany Lions",
+    conference: "Big Ten",
+    division: "D1",
+    badgeType: "Collective",
+    positions: ["OH", "MB"],
+    gradYears: "2026, 2027",
+    allocation: "$7,000 – $14,000",
+    spots: 2,
+    deadline: "May 15, 2026",
+    requirements: "Penn State enrollment required. Four appearances per season at sponsor events. Social media partnership with We Are Penn State branding. Must maintain active varsity roster status.",
+  },
+];
+
+interface NILStory {
+  id: string;
+  headline: string;
+  source: string;
+  sourceUrl: string;
+  date: string;
+  tag: string;
+  body?: string;
+}
+
+function nilTagStyle(tag: string): React.CSSProperties {
+  switch (tag) {
+    case "NCAA":       return { background: "#E6F1FB", color: "#0C447C" };
+    case "Collective": return { background: "#EEEDFE", color: "#3C3489" };
+    case "Deal":       return { background: "#E8F5EE", color: "#0F4A28" };
+    case "Revenue":    return { background: "#FAEEDA", color: "#633806" };
+    case "Policy":     return { background: "#FAECE7", color: "#712B13" };
+    default:           return { background: "#f0f0f0", color: "#555" };
+  }
+}
+
+function NILTab({ showToast }: { showToast: (msg: string) => void }) {
+  const [nilSubTab, setNilSubTab] = useState<NILSubTab>("Opportunities");
+  const [posFilter, setPosFilter] = useState("All");
+  const [divFilter, setDivFilter] = useState("All");
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [nilNews, setNilNews] = useState<NILStory[]>([]);
+  const [nilSearch, setNilSearch] = useState("");
+  const [newsLoading, setNewsLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && sessionStorage.getItem("nil-banner-dismissed")) {
+      setBannerDismissed(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (nilSubTab === "News" && nilNews.length === 0) {
+      setNewsLoading(true);
+      fetch("/api/nil")
+        .then(r => r.json())
+        .then((data: NILStory[]) => { setNilNews(data); setNewsLoading(false); })
+        .catch(() => setNewsLoading(false));
+    }
+  }, [nilSubTab]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const dismissBanner = () => {
+    setBannerDismissed(true);
+    if (typeof window !== "undefined") sessionStorage.setItem("nil-banner-dismissed", "1");
+  };
+
+  const filteredOpps = NIL_OPPORTUNITIES.filter(opp => {
+    const posMatch = posFilter === "All" || opp.positions.includes(posFilter);
+    const divMatch = divFilter === "All" || opp.division === divFilter;
+    return posMatch && divMatch;
+  });
+
+  const filteredNews = nilNews.filter(story =>
+    nilSearch === "" || story.headline.toLowerCase().includes(nilSearch.toLowerCase())
+  );
+
+  const pillBase: React.CSSProperties = {
+    flexShrink: 0, border: "none", borderRadius: 20,
+    padding: "4px 12px", fontSize: 12, fontWeight: 600,
+    cursor: "pointer", transition: "all 0.15s",
+  };
+
+  return (
+    <div>
+      {/* NIL sub-tab bar */}
+      <div style={{
+        display: "flex", borderBottom: "1px solid #e8e8e8",
+        background: "white", marginBottom: 0,
+        overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none",
+      }}>
+        {(["Opportunities", "News"] as NILSubTab[]).map(tab => (
+          <button
+            key={tab}
+            onClick={() => setNilSubTab(tab)}
+            style={{
+              flexShrink: 0, fontSize: 13, padding: "10px 16px",
+              cursor: "pointer", background: "none", border: "none",
+              borderBottom: nilSubTab === tab ? "2px solid #1A6B3C" : "2px solid transparent",
+              color: nilSubTab === tab ? "#111" : "#999",
+              fontWeight: nilSubTab === tab ? 600 : 400,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      {/* ── OPPORTUNITIES TAB ── */}
+      {nilSubTab === "Opportunities" && (
+        <div style={{ paddingTop: 16 }}>
+          {/* Header */}
+          <div style={{ marginBottom: 14 }}>
+            <div style={{ fontSize: 20, fontWeight: 700, color: "#111" }}>NIL Opportunities</div>
+            <div style={{ fontSize: 13, color: "#999", marginTop: 2 }}>
+              Name Image Likeness deals available to college volleyball athletes
+            </div>
+          </div>
+
+          {/* Eligibility banner */}
+          {!bannerDismissed && (
+            <div style={{
+              background: "#FAEEDA", borderLeft: "3px solid #633806",
+              borderRadius: 6, padding: "10px 14px", marginBottom: 16,
+              fontSize: 12, color: "#633806", position: "relative",
+            }}>
+              <span style={{ marginRight: 6 }}>⚠️</span>
+              NIL rules vary by state and institution. High school athletes in California may
+              participate in NIL activities. Always verify eligibility with your school's compliance
+              office before signing any agreement.
+              <button
+                onClick={dismissBanner}
+                style={{
+                  position: "absolute", top: 8, right: 10,
+                  background: "none", border: "none", cursor: "pointer",
+                  fontSize: 14, color: "#633806", lineHeight: 1, padding: 0,
+                }}
+                aria-label="Dismiss"
+              >
+                ×
+              </button>
+            </div>
+          )}
+
+          {/* Position filter pills */}
+          <div style={{ marginBottom: 8 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: "#999", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>
+              Position
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {NIL_POSITIONS.map(p => (
+                <button
+                  key={p}
+                  onClick={() => setPosFilter(p)}
+                  style={{
+                    ...pillBase,
+                    background: posFilter === p ? "#1A6B3C" : "#f0f0f0",
+                    color: posFilter === p ? "#fff" : "#555",
+                  }}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Division filter pills */}
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: "#999", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>
+              Division
+            </div>
+            <div style={{ display: "flex", gap: 6 }}>
+              {NIL_DIVISIONS.map(d => (
+                <button
+                  key={d}
+                  onClick={() => setDivFilter(d)}
+                  style={{
+                    ...pillBase,
+                    background: divFilter === d ? "#1A6B3C" : "#f0f0f0",
+                    color: divFilter === d ? "#fff" : "#555",
+                  }}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Opportunity cards */}
+          {filteredOpps.length === 0 && (
+            <div style={{ fontSize: 13, color: "#999", textAlign: "center", padding: "32px 0" }}>
+              No opportunities match these filters.
+            </div>
+          )}
+          {filteredOpps.map(opp => (
+            <div
+              key={opp.id}
+              style={{
+                background: "white", border: "1px solid #e8e8e8",
+                borderRadius: 10, padding: 16, marginBottom: 10,
+              }}
+            >
+              {/* Card header */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111" }}>{opp.school}</div>
+                  <div style={{ fontSize: 11, color: "#999", marginTop: 2 }}>{opp.conference} · {opp.division}</div>
+                </div>
+                <span style={{
+                  ...(opp.badgeType === "Verified Program"
+                    ? { background: "#E8F5EE", color: "#0F4A28" }
+                    : { background: "#EEEDFE", color: "#3C3489" }),
+                  borderRadius: 20, padding: "2px 8px", fontSize: 10, fontWeight: 700,
+                  whiteSpace: "nowrap", flexShrink: 0,
+                }}>
+                  {opp.badgeType}
+                </span>
+              </div>
+
+              {/* Details grid */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 12px", marginBottom: 10 }}>
+                {[
+                  { label: "Position needed", value: opp.positions.join(", ") },
+                  { label: "Grad years", value: opp.gradYears },
+                  { label: "Allocation", value: opp.allocation, green: true },
+                  { label: "Spots available", value: String(opp.spots) },
+                  { label: "Deadline", value: opp.deadline },
+                ].map(row => (
+                  <div key={row.label}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: "#999", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+                      {row.label}
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: row.green ? 700 : 400, color: row.green ? "#1A6B3C" : "#111", marginTop: 1 }}>
+                      {row.value}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Requirements */}
+              <div style={{ fontSize: 12, color: "#666", fontStyle: "italic", marginBottom: 12, lineHeight: 1.5 }}>
+                {opp.requirements}
+              </div>
+
+              {/* CTA button */}
+              <button
+                onClick={() => showToast("Feature coming soon — NIL applications launching in phase 2")}
+                style={{
+                  width: "100%", background: "#1A6B3C", color: "white",
+                  border: "none", borderRadius: 20, padding: 8,
+                  fontSize: 13, fontWeight: 700, cursor: "pointer",
+                }}
+              >
+                Express interest →
+              </button>
+
+              {/* Legal note */}
+              <div style={{ fontSize: 10, color: "#999", fontStyle: "italic", marginTop: 8, textAlign: "center" }}>
+                NIL eligibility varies by state. Consult your compliance office first.
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── NEWS TAB ── */}
+      {nilSubTab === "News" && (
+        <div style={{ paddingTop: 16 }}>
+          {/* Header */}
+          <div style={{ marginBottom: 14 }}>
+            <div style={{ fontSize: 20, fontWeight: 700, color: "#111" }}>NIL News</div>
+            <div style={{ fontSize: 13, color: "#999", marginTop: 2 }}>
+              Latest Name Image Likeness news for college volleyball
+            </div>
+          </div>
+
+          {/* Search bar */}
+          <div style={{ position: "relative", marginBottom: 16 }}>
+            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#999", pointerEvents: "none" }}>
+              🔍
+            </span>
+            <input
+              type="text"
+              placeholder="Search NIL news..."
+              value={nilSearch}
+              onChange={e => setNilSearch(e.target.value)}
+              style={{
+                width: "100%", boxSizing: "border-box",
+                border: "1px solid #e8e8e8", borderRadius: 8,
+                padding: "9px 12px 9px 36px", fontSize: 13,
+                color: "#111", background: "white",
+                outline: "none", fontFamily: "inherit",
+              }}
+            />
+          </div>
+
+          {/* Loading skeleton */}
+          {newsLoading && (
+            <div>
+              {[1, 2, 3].map(i => (
+                <div key={i} style={{ background: "white", border: "1px solid #e8e8e8", borderRadius: 10, padding: "14px 16px", marginBottom: 8 }}>
+                  <div className="skeleton" style={{ height: 10, width: 60, borderRadius: 4, marginBottom: 8 }} />
+                  <div className="skeleton" style={{ height: 14, width: "90%", borderRadius: 4, marginBottom: 6 }} />
+                  <div className="skeleton" style={{ height: 14, width: "70%", borderRadius: 4, marginBottom: 8 }} />
+                  <div className="skeleton" style={{ height: 10, width: 120, borderRadius: 4 }} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* News cards */}
+          {!newsLoading && filteredNews.length === 0 && (
+            <div style={{ fontSize: 13, color: "#999", textAlign: "center", padding: "32px 0" }}>
+              {nilSearch ? "No stories match your search." : "No NIL news available right now."}
+            </div>
+          )}
+          {!newsLoading && filteredNews.map(story => (
+            <NILNewsCard key={story.id} story={story} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function NILNewsCard({ story }: { story: NILStory }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a
+      href={story.sourceUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ textDecoration: "none", display: "block" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{
+        background: "white", border: "1px solid #e8e8e8",
+        borderRadius: 10, padding: "14px 16px", marginBottom: 8,
+      }}>
+        {/* Tag */}
+        <span style={{
+          ...nilTagStyle(story.tag),
+          borderRadius: 20, padding: "2px 8px",
+          fontSize: 10, fontWeight: 700,
+          display: "inline-block", marginBottom: 6,
+        }}>
+          {story.tag}
+        </span>
+        {/* Headline */}
+        <div style={{
+          fontSize: 14, fontWeight: 700, lineHeight: 1.4,
+          color: hovered ? "#1A6B3C" : "#111",
+          transition: "color 0.15s",
+        }}>
+          {story.headline}
+        </div>
+        {/* Source + date */}
+        <div style={{ fontSize: 11, color: "#999", marginTop: 4 }}>
+          {story.source}{story.date ? ` · ${story.date}` : ""}
+        </div>
+      </div>
+    </a>
+  );
+}
+
 // ─── RecruitingContent ────────────────────────────────────────────────────────
 
 function RecruitingContent() {
@@ -393,11 +846,7 @@ function RecruitingContent() {
 
         {/* NIL TAB */}
         {activeTab === "NIL" && (
-          <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: "32px 28px" }}>
-            <h1 style={{ fontSize: 22, fontWeight: 800, color: "#111", marginBottom: 4 }}>NIL Hub</h1>
-            <p style={{ fontSize: 14, color: "#666", marginBottom: 24 }}>Name Image Likeness opportunities and news</p>
-            <p style={{ fontSize: 14, color: "#999" }}>Coming soon</p>
-          </div>
+          <NILTab showToast={showToast} />
         )}
 
         {/* TIMELINE TAB */}

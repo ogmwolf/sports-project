@@ -983,9 +983,19 @@ const SOURCES = [
   { id: "maxpreps_boys_co", label: "MaxPreps Boys CO", fn: () => fetchMaxPreps("https://www.maxpreps.com/co/volleyball/boys/rankings/1/", "varsity_boys_co", "maxpreps") },
 ];
 
+// ── Module-level cache ────────────────────────────────────────────
+
+let cachedData: unknown = null;
+let cacheTime: number = 0;
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+
 // ── Route handler ─────────────────────────────────────────────────
 
 export async function GET() {
+  if (cachedData && Date.now() - cacheTime < CACHE_DURATION) {
+    return NextResponse.json(cachedData);
+  }
+
   const timestamp = new Date().toISOString();
 
   const results = await Promise.allSettled(SOURCES.map((s) => s.fn()));
@@ -1055,7 +1065,7 @@ export async function GET() {
 
   const allFailed = succeeded.length === 0;
 
-  return NextResponse.json({
+  const result = {
     fallback: allFailed,
     varsity: {
       girls: {
@@ -1102,5 +1112,10 @@ export async function GET() {
       timestamp,
       lastUpdated: lastUpdatedMap,
     },
-  });
+  };
+
+  cachedData = result;
+  cacheTime = Date.now();
+
+  return NextResponse.json(result);
 }
